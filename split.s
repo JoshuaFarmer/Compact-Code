@@ -17,33 +17,39 @@ parse:
 	mov	DWORD PTR -8[rbp], 0
 	mov	DWORD PTR -4[rbp], 0
 	jmp	.L2
-.L14:
+.L4:
+	add	QWORD PTR -24[rbp], 1
+.L3:
+	mov	rax, QWORD PTR -24[rbp]
+	movzx	eax, BYTE PTR [rax]
+	cmp	al, 32
+	je	.L4
 	mov	rax, QWORD PTR -24[rbp]
 	movzx	eax, BYTE PTR [rax]
 	cmp	al, 34
-	jne	.L11
+	jne	.L13
 	add	QWORD PTR -24[rbp], 1
-	jmp	.L4
-.L10:
+	jmp	.L6
+.L12:
 	mov	rax, QWORD PTR -24[rbp]
 	movzx	eax, BYTE PTR [rax]
 	cmp	al, 92
-	jne	.L5
+	jne	.L7
 	add	QWORD PTR -24[rbp], 1
 	mov	rax, QWORD PTR -24[rbp]
 	movzx	eax, BYTE PTR [rax]
 	cmp	al, 110
-	je	.L6
+	je	.L8
 	mov	rax, QWORD PTR -24[rbp]
 	movzx	eax, BYTE PTR [rax]
-	jmp	.L8
-.L6:
-	mov	eax, 10
-	jmp	.L8
-.L5:
-	mov	rax, QWORD PTR -24[rbp]
-	movzx	eax, BYTE PTR [rax]
+	jmp	.L10
 .L8:
+	mov	eax, 10
+	jmp	.L10
+.L7:
+	mov	rax, QWORD PTR -24[rbp]
+	movzx	eax, BYTE PTR [rax]
+.L10:
 	mov	edx, DWORD PTR -8[rbp]
 	movsx	rdx, edx
 	mov	rcx, rdx
@@ -55,17 +61,17 @@ parse:
 	mov	BYTE PTR [rcx+rdx], al
 	add	QWORD PTR -24[rbp], 1
 	add	DWORD PTR -4[rbp], 1
-.L4:
+.L6:
 	mov	rax, QWORD PTR -24[rbp]
 	movzx	eax, BYTE PTR [rax]
 	cmp	al, 34
-	je	.L9
+	je	.L11
 	mov	rax, QWORD PTR -24[rbp]
 	movzx	eax, BYTE PTR [rax]
 	test	al, al
-	jne	.L10
-	jmp	.L9
-.L12:
+	jne	.L12
+	jmp	.L11
+.L14:
 	mov	rax, QWORD PTR -24[rbp]
 	lea	rdx, 1[rax]
 	mov	QWORD PTR -24[rbp], rdx
@@ -81,16 +87,16 @@ parse:
 	movzx	ecx, BYTE PTR [rax]
 	movsx	rax, edx
 	mov	BYTE PTR [rsi+rax], cl
-.L11:
+.L13:
 	mov	rax, QWORD PTR -24[rbp]
 	movzx	eax, BYTE PTR [rax]
 	test	al, al
-	je	.L9
+	je	.L11
 	mov	rax, QWORD PTR -24[rbp]
 	movzx	eax, BYTE PTR [rax]
 	cmp	al, 32
-	jne	.L12
-.L9:
+	jne	.L14
+.L11:
 	mov	eax, DWORD PTR -8[rbp]
 	lea	edx, 1[rax]
 	mov	DWORD PTR -8[rbp], edx
@@ -108,12 +114,12 @@ parse:
 	mov	rax, QWORD PTR -24[rbp]
 	movzx	eax, BYTE PTR [rax]
 	test	al, al
-	je	.L13
+	je	.L15
 	cmp	DWORD PTR -8[rbp], 31
-	jg	.L13
+	jg	.L15
 	cmp	DWORD PTR -4[rbp], 127
-	jle	.L14
-.L13:
+	jle	.L3
+.L15:
 	mov	eax, DWORD PTR -8[rbp]
 	pop	rbp
 	.cfi_def_cfa 7, 8
@@ -123,7 +129,7 @@ parse:
 	.size	parse, .-parse
 	.section	.rodata
 .LC0:
-	.string	"./test -s \"real path\""
+	.string	"./test the \"real path\""
 .LC1:
 	.string	"ARGC=%d\n"
 	.text
@@ -158,8 +164,8 @@ main:
 	mov	eax, 0
 	call	printf@PLT
 	mov	DWORD PTR -4120[rbp], 0
-	jmp	.L17
-.L18:
+	jmp	.L19
+.L20:
 	lea	rdx, -4112[rbp]
 	mov	eax, DWORD PTR -4120[rbp]
 	cdqe
@@ -168,16 +174,16 @@ main:
 	mov	rdi, rax
 	call	puts@PLT
 	add	DWORD PTR -4120[rbp], 1
-.L17:
+.L19:
 	mov	eax, DWORD PTR -4120[rbp]
 	cmp	eax, DWORD PTR -4116[rbp]
-	jl	.L18
+	jl	.L20
 	nop
 	mov	rdx, QWORD PTR -8[rbp]
 	sub	rdx, QWORD PTR fs:40
-	je	.L19
+	je	.L21
 	call	__stack_chk_fail@PLT
-.L19:
+.L21:
 	leave
 	.cfi_def_cfa 7, 8
 	ret
